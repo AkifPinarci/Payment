@@ -62,11 +62,6 @@ const getPayments = async (req, res) => {
 
     const skip = offset ? parseInt(offset) : 0;
     const take = limit ? parseInt(limit) : 10;
-    if (take > 100) {
-      return res
-        .status(400)
-        .json({ error: "Limit cannot be greater than 100" });
-    }
     const whereClause = {
       payerId: payerid,
       ...(status && { status: status }),

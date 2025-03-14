@@ -5,16 +5,10 @@ require("dotenv").config();
 const paymentsRoutes = require("./routes/paymentsRoutes");
 const webhookRoutes = require("./routes/stripeWebhookRoutes");
 const healthcheckRoutes = require("./routes/healthcheckRoutes");
-const cors = require("cors");
 const morgan = require("morgan");
 
 app.use(morgan("combined"));
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
 // Apply body-parser to all routes except webhook
 app.use((req, res, next) => {
   if (req.originalUrl === "/api/v1/webhook") {

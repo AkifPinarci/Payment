@@ -21,7 +21,7 @@ model Payment {
   payerId           String? // Payer id come from url parameters
   amount            Int
   currency          String
-  status            String // "pending", "succeeded", "failed", "expired"
+  status            String // "pending", "succeeded", "failed", "expired", "created", "refunded",
   items             Json[] // Array of JSON objects containing payment items
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
