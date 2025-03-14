@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Payment {
+  id                String   @id @default(uuid()) // Unique identifier for our DB 
+  paymentIntentId   String?  @unique // Stripe Payment Intent ID (pi_123) isim paymentId
+  checkoutSessionId String?  @unique // Stripe Checkout Session ID (cs_test_ABC)
+  receiptUrl        String?
+  payerId           String? // Payer id come from url parameters
+  amount            Int
+  currency          String
+  status            String // "pending", "succeeded", "failed", "expired"
+  items             Json[] // Array of JSON objects containing payment items
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([checkoutSessionId])
+}
