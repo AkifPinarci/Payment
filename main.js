@@ -5,6 +5,7 @@ require("dotenv").config();
 const paymentsRoutes = require("./routes/paymentsRoutes");
 const webhookRoutes = require("./routes/stripeWebhookRoutes");
 const healthcheckRoutes = require("./routes/healthcheckRoutes");
+const errorMiddleware = require("./middlewares/errorMiddleware");
 const morgan = require("morgan");
 
 app.use(morgan("combined"));
@@ -26,6 +27,12 @@ app.use(
 );
 app.use("/api/v1/healthcheck", healthcheckRoutes);
 
-app.listen(8080, () => {
-  console.log("Running on port 8080");
+app.use(errorMiddleware);
+
+app.use((req, res) => {
+  res.status(404).json({ error: { message: "Route not found" } });
+});
+
+app.listen(process.env.PORT, () => {
+  console.log(`Running on port ${process.env.PORT}`);
 });

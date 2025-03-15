@@ -18,7 +18,7 @@ const storePaymentDetails = async (req, res, next) => {
         amount: amount,
         currency: "usd",
         status: "initiated",
-        payerId: req.body.customerId,
+        payer_id: req.body.customer_id,
       },
     });
     req.newPayment = newPayment.id;
